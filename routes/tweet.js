@@ -36,6 +36,14 @@ router.post("/newTweet", async (req, res) => {
   // });
 });
 
+router.get("/allTweets", (req, res) => {
+  Tweet.find((data) => {
+    console.log("data is ", data);
+
+    res.json({ tweet: data });
+  });
+});
+
 router.post("/hashtag", (req, res) => {
   Hashtag.findOne({
     hashtag: { $regex: new RegExp(req.body.hashtag, "i") },
