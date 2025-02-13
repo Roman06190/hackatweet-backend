@@ -36,12 +36,9 @@ router.post("/newTweet", async (req, res) => {
   // });
 });
 
-router.get("/allTweets", (req, res) => {
-  Tweet.find((data) => {
-    console.log("data is ", data);
-
-    res.json({ tweet: data });
-  });
+router.get("/allTweets", async (req, res) => {
+  const tweets = await Tweet.find();
+  res.json({ tweets: tweets });
 });
 
 router.post("/hashtag", (req, res) => {
