@@ -36,16 +36,6 @@ router.post("/newTweet", async (req, res) => {
   // });
 });
 
-// router.get("/alltweet", (req, res) => {
-//   content: req.body.Tweet,
-//     content.save().then((data) => {
-//       res.json({
-//         result: true,
-//         content: req.body.tweet,
-//       });
-//     });
-// });
-
 router.post("/hashtag", (req, res) => {
   Hashtag.findOne({
     hashtag: { $regex: new RegExp(req.body.hashtag, "i") },

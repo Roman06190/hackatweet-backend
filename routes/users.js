@@ -53,4 +53,6 @@ router.post("/signin", (req, res) => {
   });
 });
 
+router.post("/tweet", (req, res) => {});
+
 module.exports = router;
