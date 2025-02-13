@@ -15,8 +15,20 @@ router.post("/tweet", (req, res) => {
   });
 });
 
-router.get("/alltweet", (req, res) => {});
+router.get("/alltweet", (req, res) => {
+  res.json(Tweet);
+});
 
-router.get("/findtweet", (req, res) => {});
+router.get("/findtweet/:author", (req, res) => {
+  const author = req.params.author;
+  const userTweet = (data) => data.author.toLowerCase() === author;
+  if (userTweet.length === 0) {
+    res.json({
+      resulst: false,
+      error: "Aucun message trouvé pour cet utilisateur",
+    });
+  }
+  res.json(userTweet);
+});
 
 module.exports = router;
