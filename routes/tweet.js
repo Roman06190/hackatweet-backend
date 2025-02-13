@@ -1,17 +1,24 @@
 var express = require("express");
 var router = express.Router();
+const mongoose = require("mongoose");
 
 require("../models/connection");
 const Tweet = require("../models/tweet");
-const { now } = require("mongoose");
 
 router.post("/tweet", (req, res) => {
+  console.log("req:", req.body.id);
   const newTweet = new Tweet({
     content: req.body.tweet,
     date: Date.now(),
+    author: req.body.id,
+    hashtag: req.body.id,
   });
-  newTweet.save().then(() => {
-    res.json({ result: true, content: req.body.tweet });
+  newTweet.save().then((data) => {
+    res.json({
+      result: true,
+      content: req.body.tweet,
+      author: req.body.id,
+    });
   });
 });
 
