@@ -23,19 +23,24 @@ router.post("/tweet", (req, res) => {
 });
 
 router.get("/alltweet", (req, res) => {
-  res.json(Tweet);
+  content: req.body.Tweet,
+    content.save().then((data) => {
+      res.json({
+        result: true,
+        content: req.body.tweet,
+      });
+    });
 });
 
 router.get("/findtweet/:author", (req, res) => {
-  const author = req.params.author;
-  const userTweet = (data) => data.author.toLowerCase() === author;
-  if (userTweet.length === 0) {
-    res.json({
-      resulst: false,
-      error: "Aucun message trouvé pour cet utilisateur",
-    });
-  }
-  res.json(userTweet);
+  User.findOne({ author: req.params.author }).then((data) => {
+    if (data) {
+      console.log("data is", data);
+      res.json({ result: true, findtweet: data.findtweet });
+    } else {
+      res.json({ result: false, error: "No tweets found" });
+    }
+  });
 });
 
 module.exports = router;
