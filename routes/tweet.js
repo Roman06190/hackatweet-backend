@@ -10,7 +10,7 @@ router.post("/newTweet", async (req, res) => {
     hashtag: { $regex: new RegExp(req.body.hashtag, "i") },
   });
   //Si pas de tag existant création d'un nouveau tag
-  if (!dbData) {
+  if (dbData === null) {
     const newHashtag = await new Hashtag({
       hashtag: req.body.hashtag,
       tweet: [],
