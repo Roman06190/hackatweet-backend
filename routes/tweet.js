@@ -42,12 +42,8 @@ router.post("/newTweet", async (req, res) => {
 });
 
 router.get("/allTweets", async (req, res) => {
-  const tweets = await Tweet.find();
-  AuTHOR.findOne({ AuTHOR: req.params.author })
-    .populate("author")
-    .then((data) => {
-      res.json({ tweets: data });
-    });
+  const tweets = await Tweet.find().populate("author");
+  res.json({ tweets });
 });
 
 router.post("/hashtag", (req, res) => {
@@ -81,4 +77,9 @@ router.get("/:hashtag", (req, res) => {
     });
 });
 
+router.delete("/tweets/:id", (req, res) => {
+  Tweet.findById({ id: req.params.id }).then((data) => {
+    res.send({ result: true, id: id });
+  });
+});
 module.exports = router;
