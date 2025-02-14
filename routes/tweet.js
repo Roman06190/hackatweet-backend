@@ -19,7 +19,7 @@ router.post("/newTweet", async (req, res) => {
   let dbData = await Hashtag.findOne({
     hashtag: { $regex: new RegExp(req.body.hashtag, "i") },
   });
-  console.log("blabbla:", theAuthor);
+  // console.log("blabbla:", theAuthor);
   //Si pas de tag existant création d'un nouveau tag
   if (dbData === null) {
     const newHashtag = await new Hashtag({
@@ -31,7 +31,7 @@ router.post("/newTweet", async (req, res) => {
   theOne = theAuthor._id;
   tagId = dbData._id;
   author = User.find();
-  console.log("author is:", theOne);
+  // console.log("author is:", theOne);
 
   const newTweet = new Tweet({
     content: req.body.tweet,
