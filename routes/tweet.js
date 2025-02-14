@@ -7,7 +7,7 @@ const User = require("../models/users");
 const { checkBody } = require("../modules/checkBody");
 
 router.post("/newTweet", async (req, res) => {
-  if (!checkBody(req.body, ["tweet"])) {
+  if (!checkBody(req.body, ["tweet", "token"])) {
     res.json({ result: false, error: "Missing or empty fields" });
     return;
   }
