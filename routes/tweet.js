@@ -57,7 +57,7 @@ router.post("/newTweet", async (req, res) => {
 });
 
 router.get("/allTweets", async (req, res) => {
-  const tweets = await Tweet.find();
+  const tweets = await Tweet.find().populate("author");
   res.json({ tweets: tweets });
 });
 
