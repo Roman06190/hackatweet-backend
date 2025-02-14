@@ -6,34 +6,39 @@ const Hashtag = require("../models/hashtag");
 
 router.post("/newTweet", async (req, res) => {
   let tagId;
-  const dbData = await Hashtag.findOne({
+  let dbData = await Hashtag.findOne({
     hashtag: { $regex: new RegExp(req.body.hashtag, "i") },
   });
   //Si pas de tag existant création d'un nouveau tag
   if (dbData === null) {
     const newHashtag = await new Hashtag({
       hashtag: req.body.hashtag,
+      tweet: [],
     });
-    const newDoc = await newHashtag.save();
-    tagId = await newDoc._id;
-  } else {
-    tagId = dbData._id;
+    dbData = await newHashtag.save();
   }
+  tagId = dbData._id;
 
-  console.log("tag Id is:", tagId);
+  const newTweet = new Tweet({
+    content: req.body.tweet,
+    date: Date.now(),
+    author: req.body.id,
+    hashtag: [tagId],
+  });
 
-  // const newTweet = new Tweet({
-  //   content: req.body.tweet,
-  //   date: Date.now(),
-  //   author: req.body.id,
-  //   hashtag: req.body.id,
-  // });
-  // newTweet.save().then((data) => {
-  //   res.json({
-  //     result: true,
-  //     data: data,
-  //   });
-  // });
+  const savedTweet = await newTweet.save();
+
+  dbData.tweet.push(savedTweet._id);
+  await dbData.save();
+
+  const populateTweet = await Tweet.findById(savedTweet._id).populate(
+    "hashtag"
+  );
+
+  res.json({
+    result: true,
+    data: populateTweet,
+  });
 });
 
 router.get("/allTweets", async (req, res) => {
