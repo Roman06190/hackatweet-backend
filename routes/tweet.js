@@ -91,7 +91,7 @@ router.get("/:hashtag", (req, res) => {
     });
 });
 
-router.delete("/dlttweets/", (req, res) => {
+router.delete("/dlttweets", (req, res) => {
   Tweet.deleteOne({ Tweet: Tweet }).then((data) => {
     res.send({ result: true, id: data });
   });
