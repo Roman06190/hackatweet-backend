@@ -35,6 +35,7 @@ router.post("/newTweet", async (req, res) => {
     hashtag: [tagId],
   });
 
+  //test
   const savedTweet = await newTweet.save();
 
   dbData.tweet.push(savedTweet._id);
