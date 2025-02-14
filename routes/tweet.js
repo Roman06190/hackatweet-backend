@@ -6,7 +6,7 @@ const Hashtag = require("../models/hashtag");
 
 router.post("/newTweet", async (req, res) => {
   let tagId;
-  const dbData = await Hashtag.findOne({
+  let dbData = await Hashtag.findOne({
     hashtag: { $regex: new RegExp(req.body.hashtag, "i") },
   });
   //Si pas de tag existant création d'un nouveau tag
@@ -16,12 +16,8 @@ router.post("/newTweet", async (req, res) => {
       tweet: [],
     });
     dbData = await newHashtag.save();
-    // const newDoc = await newHashtag.save();
-    // tagId = await newDoc._id;
   }
   tagId = dbData._id;
-
-  // console.log("tag Id is:", tagId);
 
   const newTweet = new Tweet({
     content: req.body.tweet,
