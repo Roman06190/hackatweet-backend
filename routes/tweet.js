@@ -4,8 +4,13 @@ var router = express.Router();
 const Tweet = require("../models/tweet");
 const Hashtag = require("../models/hashtag");
 const User = require("../models/users");
+const { checkBody } = require("../modules/checkBody");
 
 router.post("/newTweet", async (req, res) => {
+  if (!checkBody(req.body, ["tweet"])) {
+    res.json({ result: false, error: "Missing or empty fields" });
+    return;
+  }
   let tagId;
   let theAuthor = await User.findOne({
     token: req.body.token,
