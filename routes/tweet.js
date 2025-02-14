@@ -38,7 +38,11 @@ router.post("/newTweet", async (req, res) => {
 
 router.get("/allTweets", async (req, res) => {
   const tweets = await Tweet.find();
-  res.json({ tweets: tweets });
+  AuTHOR.findOne({ AuTHOR: req.params.author })
+    .populate("author")
+    .then((data) => {
+      res.json({ tweets: data });
+    });
 });
 
 router.post("/hashtag", (req, res) => {
